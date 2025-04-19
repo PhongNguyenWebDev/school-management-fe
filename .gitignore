@@ -11,6 +11,8 @@
 npm-debug.log
 yarn-error.log
 
+# Cursor
+/.cursor/rules/fe-rule.mdc
 # IDEs and editors
 .idea/
 .project

@@ -1,0 +1,17 @@
+<div class="sidenav" [ngClass]="collapsed ? 'sidenav-collapsed' : ''">
+  <div class="logo-container">
+    <button class="logo"></button>
+    <div class="logo-text" *ngIf="collapsed">Angular</div>
+    <button class="btn-close"></button>
+    <ul class="sidenav-nav">
+      <li class="sidenav-nav-item" *ngFor="let data of navData">
+        <a [routerLink]="[data.routerLink]" class="sidenav-nav-link">
+          <i [class]="data.icon" class="sidenav-link-icon"></i>
+          <span *ngIf="collapsed" class="sidenav-link-text">{{
+            data.label
+          }}</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
