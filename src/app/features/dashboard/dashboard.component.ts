@@ -1,296 +1,89 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+interface Student {
+  id: number;
+  name: string;
+  class: string;
+  gpa: number;
+}
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   template: `
     <div class="bg-white min-h-screen p-8">
-      <!-- Header -->
-      <div class="mb-8">
-        <h1 class="text-3xl font-bold text-[#211C37]">Hello Harsh 👋🏻</h1>
-        <p class="text-lg text-[#85878D]">Let's learn something new today!</p>
+      <h1 class="text-3xl font-bold mb-6 text-blue-700">Thống kê tổng quan</h1>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+        <div
+          class="bg-blue-100 rounded-xl p-6 flex flex-col items-center shadow"
+        >
+          <span class="text-4xl font-bold text-blue-700">{{
+            studentCount
+          }}</span>
+          <span class="text-lg text-blue-900 mt-2">Học sinh</span>
+        </div>
+        <div
+          class="bg-green-100 rounded-xl p-6 flex flex-col items-center shadow"
+        >
+          <span class="text-4xl font-bold text-green-700">{{
+            teacherCount
+          }}</span>
+          <span class="text-lg text-green-900 mt-2">Giáo viên</span>
+        </div>
+        <div
+          class="bg-orange-100 rounded-xl p-6 flex flex-col items-center shadow"
+        >
+          <span class="text-4xl font-bold text-orange-700">{{
+            classCount
+          }}</span>
+          <span class="text-lg text-orange-900 mt-2">Lớp học</span>
+        </div>
       </div>
-      <!-- Main grid -->
-      <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
-        <!-- Cột trái: Recent enrolled course -->
-        <div class="col-span-1 flex flex-col gap-8">
-          <div
-            class="bg-white border border-[#E4E4E4] shadow-md rounded-lg p-4 flex flex-col gap-4 w-full max-w-xs"
-          >
-            <div class="flex flex-col gap-2">
-              <span class="text-sm font-medium text-[#1C1D1D]"
-                >Recent enrolled course</span
-              >
-              <div class="flex gap-6">
-                <div
-                  class="bg-[#F3F3F3] border border-[#E5E7EB] rounded-lg p-4 flex flex-col items-center gap-2 w-48"
-                >
-                  <div
-                    class="bg-[#F9F9F9] rounded-lg shadow w-10 h-10 flex items-center justify-center"
-                  >
-                    <span class="text-xs">􀣷</span>
-                  </div>
-                  <div class="flex flex-col gap-2">
-                    <span class="font-semibold text-xs text-[#1C1D1D]"
-                      >Product Design Course</span
-                    >
-                    <div class="flex justify-between items-center w-full">
-                      <span class="text-[10px] text-black/80">14/30 class</span>
-                      <span class="bg-[#FF4B00] rounded-lg w-4 h-2"></span>
-                    </div>
-                  </div>
-                </div>
-                <!-- Có thể thêm nhiều course khác nếu cần -->
-              </div>
-            </div>
-          </div>
-          <!-- Resources -->
-          <div
-            class="bg-white border border-[#E4E4E4] shadow-md rounded-lg p-4 w-full max-w-xs"
-          >
-            <span class="block text-base font-medium text-[#121212] mb-2"
-              >Your Resources</span
+      <div class="bg-white rounded-xl shadow p-6 overflow-x-auto">
+        <h2 class="text-2xl font-bold mb-4 text-gray-800">
+          Bảng điểm học sinh
+        </h2>
+        <table class="min-w-full border border-gray-200 rounded-lg">
+          <thead class="bg-gray-100">
+            <tr>
+              <th class="py-2 px-4 border-b">#</th>
+              <th class="py-2 px-4 border-b text-left">Họ tên</th>
+              <th class="py-2 px-4 border-b text-left">Lớp</th>
+              <th class="py-2 px-4 border-b text-left">Điểm TB</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let s of students; let i = index"
+              class="hover:bg-blue-50"
             >
-            <div class="flex flex-col gap-2">
-              <div class="flex items-center gap-2">
-                <span class="text-xs font-medium text-[#121212]"
-                  >Auto-layout.pdf</span
-                >
-                <span
-                  class="text-[10px] text-[#FF4B00] bg-[#FF4B00]/15 rounded-full px-2"
-                  >.PDF</span
-                >
-                <button class="ml-auto text-xs text-[#FF4B00]">Cancel</button>
-              </div>
-              <div class="flex items-center gap-2">
-                <span class="text-xs font-medium text-[#121212]"
-                  >Design_Tips.png</span
-                >
-                <span
-                  class="text-[10px] text-[#FF4B00] bg-[#FF4B00]/15 rounded-full px-2"
-                  >.png</span
-                >
-                <button class="ml-auto text-xs text-[#FF4B00]">Download</button>
-              </div>
-              <div class="flex items-center gap-2">
-                <span class="text-xs font-medium text-[#121212]"
-                  >Basics_Of_UX.fig</span
-                >
-                <span
-                  class="text-[10px] text-[#FF4B00] bg-[#FF4B00]/15 rounded-full px-2"
-                  >.fig</span
-                >
-                <span class="ml-auto text-[10px] text-[#121212]">8.5 MB</span>
-                <button class="ml-2 text-xs text-[#FF4B00]">Download</button>
-              </div>
-              <button
-                class="mt-2 text-xs text-[#FF4B00] bg-[#FF4B00]/10 rounded px-2 py-1 w-fit"
-              >
-                see more
-              </button>
-            </div>
-          </div>
-        </div>
-        <!-- Cột giữa: Calendar, Performance, Hours Spent -->
-        <div class="col-span-1 flex flex-col gap-8">
-          <!-- Calendar -->
-          <div
-            class="bg-white border border-[#E4E4E4] shadow-md rounded-lg p-4 w-full"
-          >
-            <div class="flex justify-between items-center mb-2">
-              <span class="font-semibold text-[#FF4B00]">June 2024</span>
-              <div class="flex gap-2">
-                <button
-                  class="w-6 h-6 flex items-center justify-center rounded-full border border-[#222] text-[#222]"
-                >
-                  ‹
-                </button>
-                <button
-                  class="w-6 h-6 flex items-center justify-center rounded-full border border-[#222] text-[#222]"
-                >
-                  ›
-                </button>
-              </div>
-            </div>
-            <div class="grid grid-cols-7 gap-1 text-xs text-[#AAAAAA] mb-1">
-              <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span
-              ><span>Thu</span><span>Fri</span><span>Sat</span>
-            </div>
-            <div class="grid grid-cols-7 gap-1 text-xs">
-              <span class="text-[#A5AAB5]">30</span
-              ><span class="text-[#A5AAB5]">31</span
-              ><span class="text-[#222]">1</span
-              ><span class="text-[#222]">2</span
-              ><span class="text-[#222]">3</span
-              ><span class="text-[#222]">4</span
-              ><span class="text-[#222]">5</span>
-              <span class="text-[#FF0000]">6</span
-              ><span class="text-[#222]">7</span
-              ><span class="text-[#222]">8</span
-              ><span class="text-[#222]">9</span
-              ><span class="text-[#222]">10</span
-              ><span class="text-white bg-[#FF4B00] rounded-full">11</span
-              ><span class="text-[#222]">12</span>
-              <!-- ... các ngày khác ... -->
-            </div>
-          </div>
-          <!-- Performance -->
-          <div
-            class="bg-white border border-[#E2E8F0] shadow-md rounded-lg p-4 w-full"
-          >
-            <span class="block text-base font-semibold text-[#1C1D1D] mb-2"
-              >Performance</span
-            >
-            <div class="flex items-center gap-4">
-              <div
-                class="w-20 h-20 rounded-full bg-[#F8EFE2] flex items-center justify-center"
-              ></div>
-              <div>
-                <span class="block text-xs text-[#42404C] font-medium"
-                  >Assignment Submission Performance</span
-                >
-                <span class="block text-xs text-[#83868E]"
-                  >Your Grade:
-                  <span class="font-bold text-[#1C1D1D]">8.966</span></span
-                >
-              </div>
-              <div class="ml-auto flex items-center gap-2">
-                <span class="text-xs text-[#424252]">Monthly</span>
-                <button
-                  class="w-4 h-4 flex items-center justify-center rounded-full border border-[#82888F] text-[#82888F]"
-                >
-                  ▼
-                </button>
-              </div>
-            </div>
-          </div>
-          <!-- Hours Spent -->
-          <div
-            class="bg-white border border-[#E2E8F0] shadow-md rounded-lg p-4 w-full"
-          >
-            <span class="block text-base font-semibold text-[#1C1D1D] mb-2"
-              >Hours Spent</span
-            >
-            <div class="flex items-center gap-4">
-              <div
-                class="w-32 h-20 bg-[#EFF1F3] rounded-lg flex items-center justify-center"
-              >
-                <span class="text-lg font-bold text-[#85878D]">80 Hr</span>
-              </div>
-              <div class="flex flex-col gap-1">
-                <span class="text-xs text-[#999]"
-                  >Study:
-                  <span class="font-semibold text-[#FF4B00]">35 Hr</span></span
-                >
-                <span class="text-xs text-[#999]"
-                  >Online Test:
-                  <span class="font-semibold text-[#FF4B00]">52 Hr</span></span
-                >
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Cột phải: To do list, Upcoming Lesson -->
-        <div class="col-span-1 flex flex-col gap-8">
-          <!-- To do list -->
-          <div
-            class="bg-white border border-[#E2E8F0] shadow-md rounded-lg p-4 w-full"
-          >
-            <span class="block text-lg font-semibold text-[#121212] mb-2"
-              >To do List</span
-            >
-            <ul class="flex flex-col gap-2">
-              <li class="flex items-center gap-2">
-                <span class="text-sm text-[#121212] opacity-70"
-                  >Human Interaction Designs</span
-                >
-                <span class="text-xs text-[#41475E] opacity-50"
-                  >Tuesday, 30 June 2024</span
-                >
-                <span
-                  class="ml-auto w-3 h-3 rounded-full bg-[#FF4B00]/10 border border-[#FF4B00]"
-                ></span>
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-sm text-[#121212] opacity-70"
-                  >Design system Basics</span
-                >
-                <span class="text-xs text-[#41475E] opacity-50"
-                  >Monday, 24 June 2024</span
-                >
-                <span
-                  class="ml-auto w-3 h-3 rounded-full bg-[#FF4B00]/10 border border-[#FF4B00]"
-                ></span>
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-sm text-[#121212] opacity-70"
-                  >Introduction to UI</span
-                >
-                <span class="text-xs text-[#41475E] opacity-50"
-                  >Friday, 10 June 2024</span
-                >
-                <span class="ml-auto w-3 h-3 rounded-full bg-[#FF4B00]"></span>
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-sm text-[#121212] opacity-70"
-                  >Basics of Figma</span
-                >
-                <span class="text-xs text-[#41475E] opacity-50"
-                  >Friday, 05 June 2024</span
-                >
-                <span class="ml-auto w-3 h-3 rounded-full bg-[#FF4B00]"></span>
-              </li>
-            </ul>
-          </div>
-          <!-- Upcoming Lesson -->
-          <div
-            class="bg-white border border-[#E2E8F0] shadow-md rounded-lg p-4 w-full"
-          >
-            <span class="block text-lg font-semibold text-[#1C1D1D] mb-2"
-              >Upcoming Lesson</span
-            >
-            <div class="flex flex-col gap-4">
-              <div class="flex items-center gap-4 bg-[#F3F3F3] rounded-lg p-4">
-                <div
-                  class="w-10 h-10 bg-[#FF4B00] rounded-full flex items-center justify-center text-white"
-                >
-                  🎓
-                </div>
-                <div class="flex flex-col">
-                  <span class="font-medium text-[#1C1D1D]"
-                    >UX Design Fundamentals</span
-                  >
-                  <span class="text-xs text-[#1C1D1D] opacity-80">5:30pm</span>
-                </div>
-                <button
-                  class="ml-auto bg-[#FF4B00] text-white rounded px-3 py-1"
-                >
-                  Join
-                </button>
-              </div>
-              <div class="flex items-center gap-4 bg-[#F3F3F3] rounded-lg p-4">
-                <div
-                  class="w-10 h-10 bg-[#FF4B00] rounded-full flex items-center justify-center text-white"
-                >
-                  ✔️
-                </div>
-                <div class="flex flex-col">
-                  <span class="font-medium text-[#1C1D1D]"
-                    >Interaction Design</span
-                  >
-                  <span class="text-xs text-[#1C1D1D] opacity-80">9:00pm</span>
-                </div>
-                <button
-                  class="ml-auto bg-[#FF4B00]/10 text-[#FF4B00] rounded px-3 py-1"
-                >
-                  Join
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+              <td class="py-2 px-4 border-b text-center">{{ i + 1 }}</td>
+              <td class="py-2 px-4 border-b">{{ s.name }}</td>
+              <td class="py-2 px-4 border-b">{{ s.class }}</td>
+              <td class="py-2 px-4 border-b">{{ s.gpa }}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   `,
+  imports: [CommonModule],
 })
-export class DashboardComponent {}
+export class DashboardComponent {
+  studentCount = 1200;
+  teacherCount = 80;
+  classCount = 30;
+  students: Student[] = [
+    { id: 1, name: 'Nguyễn Văn A', class: '10A1', gpa: 8.5 },
+    { id: 2, name: 'Trần Thị B', class: '10A2', gpa: 9.1 },
+    { id: 3, name: 'Lê Văn C', class: '10A3', gpa: 7.8 },
+    { id: 4, name: 'Phạm Thị D', class: '10A1', gpa: 8.9 },
+    { id: 5, name: 'Hoàng Văn E', class: '10A2', gpa: 7.5 },
+    { id: 6, name: 'Đỗ Thị F', class: '10A3', gpa: 9.0 },
+    { id: 7, name: 'Bùi Văn G', class: '10A1', gpa: 8.2 },
+    { id: 8, name: 'Vũ Thị H', class: '10A2', gpa: 8.7 },
+    { id: 9, name: 'Đặng Văn I', class: '10A3', gpa: 7.9 },
+    { id: 10, name: 'Hồ Thị K', class: '10A1', gpa: 8.8 },
+  ];
+}

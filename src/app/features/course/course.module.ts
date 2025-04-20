@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { CourseListComponent } from './course-list.component';
 import { CourseAddComponent } from './course-add.component';
+import { authGuard } from '../../core/guards/auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'list', pathMatch: 'full' },
-  { path: 'list', component: CourseListComponent },
-  { path: 'add', component: CourseAddComponent },
+  { path: 'list', component: CourseListComponent, canActivate: [authGuard] },
+  { path: 'add', component: CourseAddComponent, canActivate: [authGuard] },
 ];
 
 @NgModule({

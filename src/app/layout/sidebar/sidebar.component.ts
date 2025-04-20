@@ -20,16 +20,47 @@ import { CommonModule } from '@angular/common';
             <a
               routerLink="/dashboard"
               routerLinkActive="bg-gray-700"
-              class="block px-6 py-2 rounded hover:bg-gray-700"
-              >Dashboard</a
+              class="block px-6 py-2 rounded hover:bg-gray-700 flex items-center gap-2"
             >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-5 h-5 text-blue-400"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M3 3h7v7H3V3zm0 11h7v7H3v-7zm11-11h7v7h-7V3zm0 11h7v7h-7v-7z"
+                />
+              </svg>
+              Dashboard
+            </a>
           </li>
           <li>
             <div
               (click)="studentDropdown.set(!studentDropdown())"
               class="flex items-center justify-between px-6 py-2 rounded hover:bg-gray-700 cursor-pointer select-none"
             >
-              <span>Học sinh</span>
+              <span class="flex items-center gap-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-5 h-5 text-green-400"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12 14c-4.418 0-8 1.79-8 4v2h16v-2c0-2.21-3.582-4-8-4zm0-2a4 4 0 100-8 4 4 0 000 8z"
+                  />
+                </svg>
+                Học sinh
+              </span>
               <svg
                 class="w-4 h-4 ml-2 transition-transform"
                 [ngClass]="studentDropdown() ? 'rotate-90' : ''"
@@ -50,19 +81,49 @@ import { CommonModule } from '@angular/common';
                 <a
                   routerLink="/students/add"
                   routerLinkActive="bg-gray-700"
-                  class="block px-4 py-2 rounded hover:bg-gray-700"
+                  class="block px-4 py-2 rounded hover:bg-gray-700 flex items-center gap-2"
                   (click)="$event.stopPropagation()"
-                  >Thêm học sinh</a
                 >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-4 h-4 text-green-300"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M12 4.5v15m7.5-7.5h-15"
+                    />
+                  </svg>
+                  Thêm học sinh
+                </a>
               </li>
               <li>
                 <a
                   routerLink="/students/list"
                   routerLinkActive="bg-gray-700"
-                  class="block px-4 py-2 rounded hover:bg-gray-700"
+                  class="block px-4 py-2 rounded hover:bg-gray-700 flex items-center gap-2"
                   (click)="$event.stopPropagation()"
-                  >Danh sách học sinh</a
                 >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-4 h-4 text-green-300"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M4 6h16M4 10h16M4 14h16M4 18h16"
+                    />
+                  </svg>
+                  Danh sách học sinh
+                </a>
               </li>
             </ul>
           </li>
@@ -71,7 +132,23 @@ import { CommonModule } from '@angular/common';
               (click)="classDropdown.set(!classDropdown())"
               class="flex items-center justify-between px-6 py-2 rounded hover:bg-gray-700 cursor-pointer select-none"
             >
-              <span>Lớp học</span>
+              <span class="flex items-center gap-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-5 h-5 text-purple-400"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M4 6h16M4 10h16M4 14h16M4 18h16"
+                  />
+                </svg>
+                Lớp học
+              </span>
               <svg
                 class="w-4 h-4 ml-2 transition-transform"
                 [ngClass]="classDropdown() ? 'rotate-90' : ''"
@@ -92,17 +169,47 @@ import { CommonModule } from '@angular/common';
                 <a
                   routerLink="/classes/add"
                   routerLinkActive="bg-gray-700"
-                  class="block px-4 py-2 rounded hover:bg-gray-700"
-                  >Thêm lớp học</a
+                  class="block px-4 py-2 rounded hover:bg-gray-700 flex items-center gap-2"
                 >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-4 h-4 text-purple-300"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M12 4.5v15m7.5-7.5h-15"
+                    />
+                  </svg>
+                  Thêm lớp học
+                </a>
               </li>
               <li>
                 <a
                   routerLink="/classes/list"
                   routerLinkActive="bg-gray-700"
-                  class="block px-4 py-2 rounded hover:bg-gray-700"
-                  >Danh sách lớp học</a
+                  class="block px-4 py-2 rounded hover:bg-gray-700 flex items-center gap-2"
                 >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-4 h-4 text-purple-300"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M4 6h16M4 10h16M4 14h16M4 18h16"
+                    />
+                  </svg>
+                  Danh sách lớp học
+                </a>
               </li>
             </ul>
           </li>
@@ -111,7 +218,23 @@ import { CommonModule } from '@angular/common';
               (click)="teacherDropdown.set(!teacherDropdown())"
               class="flex items-center justify-between px-6 py-2 rounded hover:bg-gray-700 cursor-pointer select-none"
             >
-              <span>Giáo viên</span>
+              <span class="flex items-center gap-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-5 h-5 text-orange-400"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12 14c-4.418 0-8 1.79-8 4v2h16v-2c0-2.21-3.582-4-8-4zm0-2a4 4 0 100-8 4 4 0 000 8z"
+                  />
+                </svg>
+                Giáo viên
+              </span>
               <svg
                 class="w-4 h-4 ml-2 transition-transform"
                 [ngClass]="teacherDropdown() ? 'rotate-90' : ''"
@@ -132,17 +255,47 @@ import { CommonModule } from '@angular/common';
                 <a
                   routerLink="/teachers/add"
                   routerLinkActive="bg-gray-700"
-                  class="block px-4 py-2 rounded hover:bg-gray-700"
-                  >Thêm giáo viên</a
+                  class="block px-4 py-2 rounded hover:bg-gray-700 flex items-center gap-2"
                 >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-4 h-4 text-orange-300"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M12 4.5v15m7.5-7.5h-15"
+                    />
+                  </svg>
+                  Thêm giáo viên
+                </a>
               </li>
               <li>
                 <a
                   routerLink="/teachers/list"
                   routerLinkActive="bg-gray-700"
-                  class="block px-4 py-2 rounded hover:bg-gray-700"
-                  >Danh sách giáo viên</a
+                  class="block px-4 py-2 rounded hover:bg-gray-700 flex items-center gap-2"
                 >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-4 h-4 text-orange-300"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M4 6h16M4 10h16M4 14h16M4 18h16"
+                    />
+                  </svg>
+                  Danh sách giáo viên
+                </a>
               </li>
             </ul>
           </li>
@@ -151,7 +304,23 @@ import { CommonModule } from '@angular/common';
               (click)="subjectDropdown.set(!subjectDropdown())"
               class="flex items-center justify-between px-6 py-2 rounded hover:bg-gray-700 cursor-pointer select-none"
             >
-              <span>Môn học</span>
+              <span class="flex items-center gap-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-5 h-5 text-pink-400"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12 6v6l4 2"
+                  />
+                </svg>
+                Môn học
+              </span>
               <svg
                 class="w-4 h-4 ml-2 transition-transform"
                 [ngClass]="subjectDropdown() ? 'rotate-90' : ''"
@@ -172,17 +341,47 @@ import { CommonModule } from '@angular/common';
                 <a
                   routerLink="/subjects/add"
                   routerLinkActive="bg-gray-700"
-                  class="block px-4 py-2 rounded hover:bg-gray-700"
-                  >Thêm môn học</a
+                  class="block px-4 py-2 rounded hover:bg-gray-700 flex items-center gap-2"
                 >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-4 h-4 text-pink-300"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M12 4.5v15m7.5-7.5h-15"
+                    />
+                  </svg>
+                  Thêm môn học
+                </a>
               </li>
               <li>
                 <a
                   routerLink="/subjects/list"
                   routerLinkActive="bg-gray-700"
-                  class="block px-4 py-2 rounded hover:bg-gray-700"
-                  >Danh sách môn học</a
+                  class="block px-4 py-2 rounded hover:bg-gray-700 flex items-center gap-2"
                 >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-4 h-4 text-pink-300"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M4 6h16M4 10h16M4 14h16M4 18h16"
+                    />
+                  </svg>
+                  Danh sách môn học
+                </a>
               </li>
             </ul>
           </li>
@@ -191,7 +390,23 @@ import { CommonModule } from '@angular/common';
               (click)="courseDropdown.set(!courseDropdown())"
               class="flex items-center justify-between px-6 py-2 rounded hover:bg-gray-700 cursor-pointer select-none"
             >
-              <span>Khóa học</span>
+              <span class="flex items-center gap-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-5 h-5 text-yellow-400"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12 6v6l4 2"
+                  />
+                </svg>
+                Khóa học
+              </span>
               <svg
                 class="w-4 h-4 ml-2 transition-transform"
                 [ngClass]="courseDropdown() ? 'rotate-90' : ''"
@@ -212,17 +427,47 @@ import { CommonModule } from '@angular/common';
                 <a
                   routerLink="/courses/add"
                   routerLinkActive="bg-gray-700"
-                  class="block px-4 py-2 rounded hover:bg-gray-700"
-                  >Thêm khóa học</a
+                  class="block px-4 py-2 rounded hover:bg-gray-700 flex items-center gap-2"
                 >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-4 h-4 text-yellow-300"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M12 4.5v15m7.5-7.5h-15"
+                    />
+                  </svg>
+                  Thêm khóa học
+                </a>
               </li>
               <li>
                 <a
                   routerLink="/courses/list"
                   routerLinkActive="bg-gray-700"
-                  class="block px-4 py-2 rounded hover:bg-gray-700"
-                  >Danh sách khóa học</a
+                  class="block px-4 py-2 rounded hover:bg-gray-700 flex items-center gap-2"
                 >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-4 h-4 text-yellow-300"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M4 6h16M4 10h16M4 14h16M4 18h16"
+                    />
+                  </svg>
+                  Danh sách khóa học
+                </a>
               </li>
             </ul>
           </li>

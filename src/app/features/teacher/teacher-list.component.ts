@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 interface Teacher {
   id: number;
@@ -85,20 +87,40 @@ const PAGE_SIZE = 10;
 const teachersSignal = signal<Teacher[]>(teachersData);
 const pageSignal = signal(1);
 const totalPages = Math.ceil(teachersData.length / PAGE_SIZE);
+const searchSignal = signal('');
+const filteredTeachers = computed(() => {
+  const q = searchSignal().toLowerCase().trim();
+  if (!q) return teachersSignal();
+  return teachersSignal().filter(
+    (t) =>
+      t.name.toLowerCase().includes(q) ||
+      t.email.toLowerCase().includes(q) ||
+      t.subject.toLowerCase().includes(q) ||
+      t.status.toLowerCase().includes(q)
+  );
+});
 const pagedTeachers = computed(() => {
   const page = pageSignal();
   const start = (page - 1) * PAGE_SIZE;
-  return teachersSignal().slice(start, start + PAGE_SIZE);
+  return filteredTeachers().slice(start, start + PAGE_SIZE);
 });
 
 @Component({
   selector: 'app-teacher-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   template: `
     <div class="w-full flex justify-center">
-      <div class="w-full max-w-5xl p-4">
+      <div class="w-full p-4">
         <h1 class="text-2xl font-bold mb-4">Danh sách giáo viên</h1>
+        <div class="mb-4 flex items-center gap-2">
+          <input
+            [ngModel]="searchSignal()"
+            (ngModelChange)="onSearch($event)"
+            placeholder="Tìm kiếm theo tên, email, môn dạy, trạng thái..."
+            class="border px-3 py-2 rounded w-full max-w-md focus:outline-none focus:ring-2 focus:ring-orange-400"
+          />
+        </div>
         <div class="overflow-x-auto rounded-lg shadow">
           <table class="min-w-full bg-white border border-gray-200">
             <thead>
@@ -108,31 +130,122 @@ const pagedTeachers = computed(() => {
                 <th class="py-2 px-3 border-b text-left">Email</th>
                 <th class="py-2 px-3 border-b text-left">Môn dạy</th>
                 <th class="py-2 px-3 border-b text-left">Trạng thái</th>
+                <th class="py-2 px-3 border-b text-center">Action</th>
               </tr>
             </thead>
             <tbody>
-              <tr
-                *ngFor="let t of pagedTeachers(); let i = index"
-                class="hover:bg-orange-50 transition"
-              >
-                <td class="py-2 px-3 border-b text-center">
-                  {{ (pageSignal() - 1) * PAGE_SIZE + i + 1 }}
-                </td>
-                <td class="py-2 px-3 border-b">{{ t.name }}</td>
-                <td class="py-2 px-3 border-b">{{ t.email }}</td>
-                <td class="py-2 px-3 border-b">{{ t.subject }}</td>
-                <td class="py-2 px-3 border-b">
-                  <span
-                    [ngClass]="
-                      t.status === 'active'
-                        ? 'text-green-600 font-semibold'
-                        : 'text-gray-400'
-                    "
-                  >
-                    {{ t.status === 'active' ? 'Đang dạy' : 'Nghỉ' }}
-                  </span>
-                </td>
-              </tr>
+              <ng-container *ngFor="let t of pagedTeachers(); let i = index">
+                <tr
+                  *ngIf="!editId || editId !== t.id"
+                  class="hover:bg-orange-50 transition"
+                >
+                  <td class="py-2 px-3 border-b text-center">
+                    {{ (pageSignal() - 1) * PAGE_SIZE + i + 1 }}
+                  </td>
+                  <td class="py-2 px-3 border-b">{{ t.name }}</td>
+                  <td class="py-2 px-3 border-b">{{ t.email }}</td>
+                  <td class="py-2 px-3 border-b">{{ t.subject }}</td>
+                  <td class="py-2 px-3 border-b">
+                    <span
+                      [ngClass]="
+                        t.status === 'active'
+                          ? 'text-green-600 font-semibold'
+                          : 'text-gray-400'
+                      "
+                    >
+                      {{ t.status === 'active' ? 'Đang dạy' : 'Nghỉ' }}
+                    </span>
+                  </td>
+                  <td class="py-2 px-3 border-b text-center">
+                    <button
+                      (click)="onEdit(t)"
+                      class="inline-flex items-center justify-center w-8 h-8 rounded hover:bg-blue-100 mr-1"
+                      title="Sửa"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="w-5 h-5 text-blue-600"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M16.862 4.487a2.1 2.1 0 1 1 2.97 2.97L7.5 19.79l-4 1 1-4 14.362-14.303z"
+                        />
+                      </svg>
+                    </button>
+                    <button
+                      (click)="onDelete(t)"
+                      class="inline-flex items-center justify-center w-8 h-8 rounded hover:bg-red-100"
+                      title="Xóa"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="w-5 h-5 text-red-600"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    </button>
+                  </td>
+                </tr>
+                <tr *ngIf="editId === t.id" class="bg-blue-50">
+                  <td class="py-2 px-3 border-b text-center">
+                    {{ (pageSignal() - 1) * PAGE_SIZE + i + 1 }}
+                  </td>
+                  <td class="py-2 px-3 border-b">
+                    <input
+                      [(ngModel)]="editCache.name"
+                      class="border px-2 py-1 rounded w-full"
+                    />
+                  </td>
+                  <td class="py-2 px-3 border-b">
+                    <input
+                      [(ngModel)]="editCache.email"
+                      class="border px-2 py-1 rounded w-full"
+                    />
+                  </td>
+                  <td class="py-2 px-3 border-b">
+                    <input
+                      [(ngModel)]="editCache.subject"
+                      class="border px-2 py-1 rounded w-full"
+                    />
+                  </td>
+                  <td class="py-2 px-3 border-b">
+                    <select
+                      [(ngModel)]="editCache.status"
+                      class="border px-2 py-1 rounded w-full"
+                    >
+                      <option value="active">Đang dạy</option>
+                      <option value="inactive">Nghỉ</option>
+                    </select>
+                  </td>
+                  <td class="py-2 px-3 border-b text-center">
+                    <button
+                      (click)="onSaveEdit()"
+                      class="px-3 py-1 rounded bg-blue-500 text-white font-semibold hover:bg-blue-600"
+                    >
+                      Lưu
+                    </button>
+                    <button
+                      (click)="onCancelEdit()"
+                      class="ml-2 px-3 py-1 rounded bg-gray-200 hover:bg-gray-300"
+                    >
+                      Hủy
+                    </button>
+                  </td>
+                </tr>
+              </ng-container>
             </tbody>
           </table>
         </div>
@@ -165,14 +278,14 @@ const pagedTeachers = computed(() => {
           </ng-container>
           <button
             (click)="pageSignal.set(pageSignal() + 1)"
-            [disabled]="pageSignal() === totalPages"
+            [disabled]="pageSignal() === totalPages()"
             class="px-2 py-1 rounded border border-gray-300 bg-white hover:bg-gray-100 disabled:opacity-50"
           >
             &gt;
           </button>
           <button
-            (click)="pageSignal.set(totalPages)"
-            [disabled]="pageSignal() === totalPages"
+            (click)="pageSignal.set(totalPages())"
+            [disabled]="pageSignal() === totalPages()"
             class="px-2 py-1 rounded border border-gray-300 bg-white hover:bg-gray-100 disabled:opacity-50"
           >
             »
@@ -185,12 +298,62 @@ const pagedTeachers = computed(() => {
 export class TeacherListComponent {
   pagedTeachers = pagedTeachers;
   pageSignal = pageSignal;
-  totalPages = totalPages;
+  totalPages = computed(() => Math.ceil(filteredTeachers().length / PAGE_SIZE));
   PAGE_SIZE = PAGE_SIZE;
+  searchSignal = searchSignal;
+  editId: number | null = null;
+  editCache: any = {};
 
+  onSearch(q: string) {
+    searchSignal.set(q);
+    pageSignal.set(1);
+  }
+  onEdit(t: Teacher) {
+    this.editId = t.id;
+    this.editCache = { ...t };
+  }
+  onSaveEdit() {
+    const idx = teachersSignal().findIndex((t) => t.id === this.editId);
+    if (idx > -1) {
+      const updated = [...teachersSignal()];
+      updated[idx] = { ...this.editCache };
+      teachersSignal.set(updated);
+      Swal.fire({
+        icon: 'success',
+        title: 'Cập nhật thành công!',
+        timer: 1200,
+        showConfirmButton: false,
+      });
+    }
+    this.editId = null;
+    this.editCache = {};
+  }
+  onCancelEdit() {
+    this.editId = null;
+    this.editCache = {};
+  }
+  onDelete(t: Teacher) {
+    Swal.fire({
+      title: 'Bạn có chắc muốn xóa?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Xóa',
+      cancelButtonText: 'Hủy',
+    }).then((result: { isConfirmed: boolean }) => {
+      if (result.isConfirmed) {
+        teachersSignal.set(teachersSignal().filter((tc) => tc.id !== t.id));
+        Swal.fire({
+          icon: 'success',
+          title: 'Đã xóa thành công!',
+          timer: 1200,
+          showConfirmButton: false,
+        });
+      }
+    });
+  }
   getPaginationRange(): number[] {
     const current = this.pageSignal();
-    const total = this.totalPages;
+    const total = this.totalPages();
     const max = 5;
     let start = Math.max(1, current - Math.floor(max / 2));
     let end = start + max - 1;
